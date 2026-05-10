@@ -1,1 +1,109 @@
-TEST
+
+# WNMA Project – Covert Quantum Communication Simulator
+
+This project simulates a two-way covert quantum communication protocol, inspired by "Two-way covert quantum communication in microwave regime." It unifies both classical and quantum simulations in a single, config-driven Python codebase. All results and plots are saved to a single output folder for easy analysis.
+
+
+## Protocol Summary
+The simulator models a round-trip communication between two asymmetric parties:
+
+- **Bob** (receiver, advanced lab, ~20 mK): Generates entanglement and stores a pristine idler mode.
+- **Alice** (transmitter, simple user, ~300 K): Only applies a phase modulation and reflects the signal, using passive components.
+- **Channel**: Free-space microwave (1–10 GHz) with strong thermal noise (N_B ~ 1000), providing natural covertness.
+
+**Protocol flow:**
+1. Bob sends a weak signal to Alice.
+2. Alice modulates it with a secret phase and reflects it back.
+3. Bob compares the returned signal with his stored idler to recover the bit.
+
+The simulation shows that classical receivers fail (due to noise), while quantum receivers succeed by exploiting entanglement.
+
+
+## Simulator Structure
+The simulator has two main pipelines:
+
+**1. Classical pipeline:**
+- Simulates a low-power microwave carrier through strong thermal noise.
+- Alice applies passive BPSK modulation and reflects the signal.
+- Models the backward channel to Bob.
+- Demonstrates why classical detection fails and why eavesdroppers cannot distinguish the signal from noise.
+- Plots theoretical error bounds (Chernoff exponents) for classical vs quantum detection.
+
+**2. Quantum pipeline:**
+- Uses Strawberry Fields to simulate a Two-Mode Squeezed Vacuum (TMSV) state.
+- Models a thermal-loss channel with ancilla modes and beam splitters.
+- Alice applies a phase rotation.
+- Bob uses quantum interference and homodyne detection to recover the bit.
+- Shows that the idler remains pristine and quantum interference enables recovery despite noise.
+
+
+## Environment
+The project uses a Python virtual environment in `.venv` (includes numpy, matplotlib, strawberryfields, compatible scipy/thewalrus).
+
+Activate in PowerShell:
+```
+./.venv/Scripts/Activate.ps1
+```
+Or run directly:
+```
+./.venv/Scripts/python.exe simulate.py
+```
+
+
+## Configuration
+All parameters are set in `config/sim_config.json`.
+To use a custom config:
+```
+./.venv/Scripts/python.exe simulate.py config/your_config.json
+```
+
+
+## Folder Structure
+- `simulate.py` – Entry point
+- `src/` – Implementation modules
+- `config/sim_config.json` – Parameters
+- `output/` – Plots and logs
+- `phase1_setup_signal.py` – Legacy classical script (reference)
+- `phase8_tmsv_entanglement.py` – Legacy quantum script (reference)
+
+
+## Simulator Flow (Summary)
+1. **Signal generation:** Build low-power carrier, set parameters (N_samples, N_S, N_B, eta), save time-domain plot.
+2. **Forward channel:** Add strong thermal noise, model Alice's received signal, save zoomed plot.
+3. **Alice's modulation:** Apply random phase shift (info + key), no amplification.
+4. **Backward channel:** Add independent noise, save IQ scatter plot.
+5. **Classical demodulation:** Remove key, threshold detection, print result (BER ~50%).
+6. **Eavesdropper check:** Compute Pearson correlation (should be near zero).
+7. **Quantum advantage plot:** Plot theoretical error bounds (classical vs quantum).
+8. **Entanglement:** Generate TMSV state.
+9. **Quantum channel & Alice:** Model thermal-loss, apply phase rotation, print covariance matrix.
+10. **Quantum measurement:** Remove key, interfere signal/idler, homodyne detection, repeat, print mean (sign reveals hidden bit).
+
+
+## Outputs
+Plots (saved in `output/`):
+- clean_sine_wave.png
+- forward_channel_noise.png
+- backward_channel_iq_scatter.png
+- quantum_advantage_bounds.png
+
+Log: `output/sim_log.txt` (full run log: classical results, Eve correlation, covariance matrix, quantum mean)
+
+
+## Notes
+- All plots are saved automatically (no `plt.show()`).
+- Classical decoding is random due to heavy noise.
+- Quantum receiver uses entanglement and interference to recover information inaccessible to classical receivers.
+
+
+## How to Interpret Results
+- **Classical pipeline:** BER ≈ 50% (cannot recover bit under noise).
+- **Eavesdropper:** Correlation ≈ 0 (signal is indistinguishable from noise).
+- **Quantum pipeline:** Idler variance stays low, signal variance grows (channel destroys signal, not reference).
+- **Quantum measurement:** Mean is nonzero (Bob can infer the bit despite noise).
+
+
+## Why This Protocol Matters
+- **Covertness:** Signal is hidden in thermal noise.
+- **Quantum advantage:** Entanglement gives ~6 dB SNR gain over classical.
+- **Energy efficiency:** Alice only reflects and modulates—ideal for low-power/IoT devices.
