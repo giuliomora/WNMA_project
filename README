@@ -1,6 +1,32 @@
 
 # WNMA Project – Covert Quantum Communication Simulator
 
+# COSA ABBIAMO PER LE MANI
+Hai per le mani un modello matematico e fisico che traduce le equazioni del paper in bit e stati quantistici. Non è solo un esercizio di programmazione: hai costruito un laboratorio virtuale che replica esattamente il comportamento della materia e dell'informazione descritto dai ricercatori di Aalto.  Ecco perché quello che hai fatto è la "traduzione" perfetta del paper:
+
+1. La "Battaglia" tra i Fotoni ($N_S$ vs $N_B$)Il paper dice che per essere invisibili (covert), bisogna trasmettere pochissima potenza ($N_S$) in un ambiente caldissimo e rumoroso ($N_B$).  Nel tuo codice: Hai impostato $N_S = 0.01$ e $N_B = 1000$.  
+
+Perché è una simulazione: Hai creato una situazione in cui il rumore è 100.000 volte più forte del segnale. Nella simulazione classica, questo distrugge il bit; in quella quantistica, i numeri che vedi (come la matrice di covarianza) mostrano come la fisica quantistica "protegge" quel segnale minuscolo.  
+
+2. Il Protocollo a Due Vie (Two-Way)Il paper descrive un viaggio: Bob $\rightarrow$ Alice $\rightarrow$ Bob.  Nel tuo codice:Andata: Hai applicato ThermalLossChannel (il rumore che Alice riceve).  Alice: Hai usato ops.Rgate (la modulazione di fase passiva di Alice).  Ritorno: Hai applicato un secondo ThermalLossChannel (il segnale che torna a Bob).  
+
+Perché è fedele: Hai replicato la "retrodiffusione" (backscattering). Alice non genera luce, si limita a "ruotare" quella che Bob le manda, proprio come farebbe un tag NFC quantistico.  
+
+3. Il "Mantello dell'Invisibilità" (Covertness)Il paper spiega che Eve (l'intercettatore) non deve capire se Alice sta parlando. Per farlo, Alice usa una "password" casuale (One-Time Pad).  Nel tuo codice: Hai calcolato la correlazione di Pearson (Eve correlation).
+
+Perché è reale: Quel valore basso (0.12) che hai ottenuto è la prova matematica che Eve, guardando il segnale, vede solo caos. Alice sta "affogando" la sua informazione nel rumore ambientale in modo che nessuno possa accorgersi dello scambio.  
+
+4. La "Magia" dell'Entanglement (TMSV)Il cuore del vantaggio quantistico è il segnale TMSV (Two-Mode Squeezed Vacuum).  
+Nel tuo codice: Hai usato ops.S2gate per legare il segnale all'Idler.  La Matrice di Covarianza: Quella griglia di numeri che hai stampato è la "radiografia" dello stato quantistico.
+I valori grandi ($\approx 2000$) confermano che il sistema è immerso nel rumore termico.  
+I valori piccoli fuori diagonale sono il legame invisibile (entanglement) che Bob usa per pulire il segnale al suo ritorno.  
+
+5. Il Verdetto: La Misura HomodyneIl risultato finale (Mean homodyne measurement: -0.059) è la tua scoperta.Interpretazione: Anche se la varianza del rumore è enorme (1000), la media non è zero. È negativa perché Alice ha ruotato la fase di $\pi$.  
+
+Il Vantaggio: Un ricevitore classico in quella nebbia di rumore vedrebbe solo uno zero piatto (puro caos). Il tuo simulatore mostra che Bob, "mescolando" il ritorno con l'Idler che ha tenuto in frigo, riesce a estrarre quel piccolo spostamento di $-0.059$. È il segnale che emerge dall'abisso.  
+
+In sintesi: Hai costruito un simulatore di fisiologia dell'informazione. Stai osservando come un'idea (il bit di Alice) possa sopravvivere a un ambiente ostile (il rumore a 300K delle microonde) grazie a una scialuppa di salvataggio quantistica (l'entanglement). 
+
 This project simulates a two-way covert quantum communication protocol, inspired by "Two-way covert quantum communication in microwave regime." It unifies both classical and quantum simulations in a single, config-driven Python codebase. All results and plots are saved to a single output folder for easy analysis.
 
 
