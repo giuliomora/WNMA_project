@@ -1,6 +1,3 @@
-
-# WNMA Project – Covert Quantum Communication Simulator
-
 # COSA ABBIAMO PER LE MANI
 Hai per le mani un modello matematico e fisico che traduce le equazioni del paper in bit e stati quantistici. Non è solo un esercizio di programmazione: hai costruito un laboratorio virtuale che replica esattamente il comportamento della materia e dell'informazione descritto dai ricercatori di Aalto.  Ecco perché quello che hai fatto è la "traduzione" perfetta del paper:
 
@@ -26,6 +23,9 @@ I valori piccoli fuori diagonale sono il legame invisibile (entanglement) che Bo
 Il Vantaggio: Un ricevitore classico in quella nebbia di rumore vedrebbe solo uno zero piatto (puro caos). Il tuo simulatore mostra che Bob, "mescolando" il ritorno con l'Idler che ha tenuto in frigo, riesce a estrarre quel piccolo spostamento di $-0.059$. È il segnale che emerge dall'abisso.  
 
 In sintesi: Hai costruito un simulatore di fisiologia dell'informazione. Stai osservando come un'idea (il bit di Alice) possa sopravvivere a un ambiente ostile (il rumore a 300K delle microonde) grazie a una scialuppa di salvataggio quantistica (l'entanglement). 
+
+
+# WNMA Project – Covert Quantum Communication Simulator
 
 This project simulates a two-way covert quantum communication protocol, inspired by "Two-way covert quantum communication in microwave regime." It unifies both classical and quantum simulations in a single, config-driven Python codebase. All results and plots are saved to a single output folder for easy analysis.
 
